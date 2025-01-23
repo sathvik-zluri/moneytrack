@@ -3,6 +3,7 @@ import { Pagination, Table, Button, message, Modal } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../../styles/Table.css";
 import { Transaction } from "../../types";
+import { deleteData } from "../../services/transactionsApi";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -35,11 +36,20 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
   const handleBatchDelete = async () => {
     try {
-      for (const id of selectedRowKeys) {
-        await handleDelete(Number(id));
+      console.log("selectedRowKeys", selectedRowKeys);
+      if (selectedRowKeys.length === totalCount) {
+        // If all rows are selected, call the deleteData API
+        await deleteData();
+        message.success("All transactions deleted successfully!");
+      } else {
+        // If only some rows are selected, delete them individually
+        for (const id of selectedRowKeys) {
+          await handleDelete(Number(id));
+        }
+        message.success("Selected transactions deleted successfully!");
       }
-      message.success("Selected transactions deleted successfully!");
-      setSelectedRowKeys([]);
+
+      setSelectedRowKeys([]); // Clear the selection after deletion
     } catch (error) {
       console.error("Error deleting transactions", error);
       message.error("Failed to delete selected transactions.");
