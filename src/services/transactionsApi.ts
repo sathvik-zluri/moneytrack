@@ -5,6 +5,9 @@ import type { Dayjs } from "dayjs";
 const BASE_API_URL =
   "https://r1s6ez777l.execute-api.ap-south-1.amazonaws.com/moneymap/api/v1/txns";
 
+const ALL_DELETE_API_URL =
+  "https://r1s6ez777l.execute-api.ap-south-1.amazonaws.com/moneymap/api/v1/internal/delete-data";
+
 const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
   timeout: 50000,
@@ -73,4 +76,9 @@ export const uploadTransactions = async (file: File): Promise<UploadResult> => {
     },
   });
   return response.data; // Upload results
+};
+
+export const deleteData = async () => {
+  const response = await axios.delete(ALL_DELETE_API_URL);
+  return response.data;
 };
