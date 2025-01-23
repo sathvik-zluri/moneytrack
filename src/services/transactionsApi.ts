@@ -8,7 +8,7 @@ const BASE_API_URL =
 const ALL_DELETE_API_URL =
   "https://r1s6ez777l.execute-api.ap-south-1.amazonaws.com/moneymap/api/v1/internal/delete-data";
 
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
   timeout: 50000,
 });
