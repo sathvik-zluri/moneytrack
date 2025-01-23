@@ -2,7 +2,8 @@ import axios from "axios";
 import { AddTransactionFormValues, UploadResult } from "../types";
 import type { Dayjs } from "dayjs";
 
-const BASE_API_URL = "http://13.233.160.70:5000/api/v1/txns";
+const BASE_API_URL =
+  "https://r1s6ez777l.execute-api.ap-south-1.amazonaws.com/moneymap/api/v1/txns";
 
 const axiosInstance = axios.create({
   baseURL: BASE_API_URL,
