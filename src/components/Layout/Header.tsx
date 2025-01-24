@@ -1,10 +1,7 @@
-import { Link } from "react-router-dom";
-
 const Header = () => {
   return (
     <nav className="bg-opacity-90 bg-[#6f4e37] shadow-md">
       <div className="container mx-auto flex items-center justify-between p-4">
-        {/* Toggle Button for Mobile */}
         <button
           className="lg:hidden focus:outline-none"
           type="button"
@@ -19,17 +16,15 @@ const Header = () => {
           <span className="block w-8 h-1 bg-white"></span>
         </button>
 
-        {/* Header Title */}
         <div className="flex-grow text-center">
-          <Link
-            to="/"
+          <a
+            href="/"
             className="text-white text-3xl font-bold tracking-wide uppercase hover:opacity-80"
           >
             MoneyTrack
-          </Link>
+          </a>
         </div>
 
-        {/* Empty Spacer for Centering */}
         <div className="hidden lg:block" />
       </div>
     </nav>
