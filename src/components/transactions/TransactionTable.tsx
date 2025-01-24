@@ -36,7 +36,6 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
 
   const handleBatchDelete = async () => {
     try {
-      console.log("selectedRowKeys", selectedRowKeys);
       if (selectedRowKeys.length === totalCount) {
         // If all rows are selected, call the deleteData API
         await deleteData();

@@ -170,76 +170,76 @@ describe("TransactionTable Component", () => {
     expect(checkboxes[0]).not.toBeChecked();
   });
 
-  // it("handles pagination changes", async () => {
-  //   render(
-  //     <TransactionTable
-  //       transactions={transactions}
-  //       setEditable={jest.fn()}
-  //       setShowModal={jest.fn()}
-  //       handleDelete={mockHandleDelete}
-  //       page={1}
-  //       setPage={mockSetPage}
-  //       limit={10}
-  //       setLimit={jest.fn()}
-  //       totalCount={2}
-  //     />
-  //   );
+  it("handles pagination changes", async () => {
+    render(
+      <TransactionTable
+        transactions={transactions}
+        setEditable={jest.fn()}
+        setShowModal={jest.fn()}
+        handleDelete={mockHandleDelete}
+        page={1}
+        setPage={mockSetPage}
+        limit={10}
+        setLimit={jest.fn()}
+        totalCount={2}
+      />
+    );
 
-  //   // Find the pagination component by its aria-label or accessible query
-  //   const pagination = screen.getByLabelText(/pagination/i);
+    // Find the pagination component by its aria-label or accessible query
+    const pagination = screen.getByLabelText(/pagination/i);
 
-  //   // Find the next page button inside the pagination
-  //   const nextPageButton = pagination.querySelector(".ant-pagination-next");
+    // Find the next page button inside the pagination
+    const nextPageButton = pagination.querySelector(".ant-pagination-next");
 
-  //   // Ensure the next page button exists before interacting with it
-  //   if (nextPageButton) {
-  //     fireEvent.click(nextPageButton);
+    // Ensure the next page button exists before interacting with it
+    if (nextPageButton) {
+      fireEvent.click(nextPageButton);
 
-  //     // Wait for a re-render, then check that mockSetPage was called with 2
-  //     await waitFor(() => {
-  //       expect(mockSetPage).toHaveBeenCalledWith(0);
-  //     });
-  //   } else {
-  //     throw new Error("Next page button not found");
-  //   }
-  // });
+      // Wait for a re-render, then check that mockSetPage was called with 2
+      await waitFor(() => {
+        expect(mockSetPage).toHaveBeenCalledWith(0);
+      });
+    } else {
+      throw new Error("Next page button not found");
+    }
+  });
 
-  // it("handles page size changes", async () => {
-  //   render(
-  //     <TransactionTable
-  //       transactions={transactions}
-  //       setEditable={jest.fn()}
-  //       setShowModal={jest.fn()}
-  //       handleDelete={mockHandleDelete}
-  //       page={1}
-  //       setPage={mockSetPage}
-  //       limit={10}
-  //       setLimit={mockSetLimit}
-  //       totalCount={2}
-  //     />
-  //   );
+  it("handles page size changes", async () => {
+    render(
+      <TransactionTable
+        transactions={transactions}
+        setEditable={jest.fn()}
+        setShowModal={jest.fn()}
+        handleDelete={mockHandleDelete}
+        page={1}
+        setPage={mockSetPage}
+        limit={10}
+        setLimit={mockSetLimit}
+        totalCount={2}
+      />
+    );
 
-  //   // Find the pagination element by its aria-label
-  //   const pagination = screen.getByLabelText(/pagination/i);
+    // Find the pagination element by its aria-label
+    const pagination = screen.getByLabelText(/pagination/i);
 
-  //   // Find the size changer dropdown or select input inside pagination
-  //   const sizeChanger = pagination.querySelector(
-  //     ".ant-pagination-size-changer"
-  //   );
+    // Find the size changer dropdown or select input inside pagination
+    const sizeChanger = pagination.querySelector(
+      ".ant-pagination-size-changer"
+    );
 
-  //   if (sizeChanger) {
-  //     fireEvent.click(sizeChanger);
+    if (sizeChanger) {
+      fireEvent.click(sizeChanger);
 
-  //     // Wait for the dropdown to render the size options
-  //     const sizeOption20 = screen.getByText("20");
+      // Wait for the dropdown to render the size options
+      const sizeOption20 = screen.getByText("20");
 
-  //     // Click on the option for size 20
-  //     fireEvent.click(sizeOption20);
+      // Click on the option for size 20
+      fireEvent.click(sizeOption20);
 
-  //     // Wait for the setLimit function to be called with 20
-  //     await waitFor(() => expect(mockSetLimit).toHaveBeenCalledWith(20));
-  //   } else {
-  //     throw new Error("Size changer not found");
-  //   }
-  // });
+      // Wait for the setLimit function to be called with 20
+      await waitFor(() => expect(mockSetLimit).toHaveBeenCalledWith(20));
+    } else {
+      throw new Error("Size changer not found");
+    }
+  });
 });
