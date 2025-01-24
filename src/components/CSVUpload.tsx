@@ -85,6 +85,7 @@ export function CSVUpload({ onUpload, loading = false }: CSVUploadProps) {
         onDragOver={handleDrag}
         onDrop={handleDrop}
         onClick={handleClick}
+        data-testid="drop-zone"
       >
         <input
           ref={inputRef}
@@ -93,6 +94,8 @@ export function CSVUpload({ onUpload, loading = false }: CSVUploadProps) {
           className="hidden"
           onChange={handleChange}
           disabled={loading}
+          data-testid="file-input"
+          aria-label="Upload CSV file"
         />
 
         {loading ? (
