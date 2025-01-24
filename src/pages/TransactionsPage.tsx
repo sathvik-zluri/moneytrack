@@ -135,6 +135,7 @@ const TransactionsPage: React.FC = () => {
       setEditable(null);
       setRefreshFlag((prev) => !prev);
     } catch (error) {
+      setLoading(false);
       if (!(error instanceof AxiosError)) {
         message.error("Failed to save transaction. Please try again.");
         return;
