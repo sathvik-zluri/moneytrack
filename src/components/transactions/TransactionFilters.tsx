@@ -60,7 +60,12 @@ export const TransactionFilters: React.FC<TransactionFiltersProps> = ({
         <Button type="primary" icon={<UploadOutlined />} onClick={onUpload}>
           Upload CSV
         </Button>
-        <Button type="primary" icon={<PlusSquareOutlined />} onClick={onAdd}>
+        <Button
+          type="primary"
+          icon={<PlusSquareOutlined />}
+          onClick={onAdd}
+          data-testid="add-transaction-button"
+        >
           Add Transaction
         </Button>
       </div>
