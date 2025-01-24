@@ -58,7 +58,6 @@ const TransactionsPage: React.FC = () => {
     const fetchTransactions = async () => {
       try {
         setLoading(true);
-        console.log(selectedDate);
         const response = await getTransactions(
           page,
           limit,
@@ -73,7 +72,6 @@ const TransactionsPage: React.FC = () => {
             Date: format(new Date(transaction.Date), "dd-MM-yyyy"),
           })
         );
-
         setTransactions(formattedTransactions);
         setTotalCount(response.pagination.totalCount);
         setLoading(false);
@@ -128,6 +126,7 @@ const TransactionsPage: React.FC = () => {
           response?.message || "Transaction updated successfully!"
         );
       } else {
+        console.log(values);
         const response = await addTransaction(values);
         setLoading(false);
         message.success(response?.message || "Transaction added successfully!");
@@ -279,6 +278,7 @@ const TransactionsPage: React.FC = () => {
             setShowModal(true);
             setEditable(null);
           }}
+          aria-label="Transaction filters"
         />
 
         <TransactionTable
@@ -291,6 +291,7 @@ const TransactionsPage: React.FC = () => {
           limit={limit}
           setLimit={setLimit}
           totalCount={totalCount}
+          aria-label="Transaction table"
         />
 
         <TransactionModals
@@ -303,6 +304,7 @@ const TransactionsPage: React.FC = () => {
           onUploadModalCancel={() => setShowUploadModal(false)}
           onFormSubmit={handleSubmit}
           onFileUpload={handleFileUpload}
+          aria-label="Transaction modals"
         />
       </div>
     </Layout>
