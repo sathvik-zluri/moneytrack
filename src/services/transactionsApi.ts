@@ -5,6 +5,8 @@ import type { Dayjs } from "dayjs";
 const BASE_API_URL =
   "https://r1s6ez777l.execute-api.ap-south-1.amazonaws.com/moneymap/api/v1/txns";
 
+// const BASE_API_URL = "https://moneymap-9oqk.onrender.com/api/v1/txns";
+
 const ALL_DELETE_API_URL =
   "https://r1s6ez777l.execute-api.ap-south-1.amazonaws.com/moneymap/api/v1/internal/delete-data";
 
