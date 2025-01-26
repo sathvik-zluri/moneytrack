@@ -4,6 +4,7 @@ import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../../styles/Table.css";
 import { Transaction } from "../../types";
 import { deleteData } from "../../services/transactionsApi";
+import DescriptionCell from "./DescriptionCell";
 
 interface TransactionTableProps {
   transactions: Transaction[];
@@ -37,18 +38,15 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   const handleBatchDelete = async () => {
     try {
       if (selectedRowKeys.length === totalCount) {
-        // If all rows are selected, call the deleteData API
         await deleteData();
         message.success("All transactions deleted successfully!");
       } else {
-        // If only some rows are selected, delete them individually
         for (const id of selectedRowKeys) {
           await handleDelete(Number(id));
         }
         message.success("Selected transactions deleted successfully!");
       }
-
-      setSelectedRowKeys([]); // Clear the selection after deletion
+      setSelectedRowKeys([]);
     } catch (error) {
       console.error("Error deleting transactions", error);
       message.error("Failed to delete selected transactions.");
@@ -78,29 +76,38 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       title: "Date",
       dataIndex: "Date",
       key: "Date",
+      width: 110,
     },
     {
       title: "Description",
       dataIndex: "Description",
       key: "Description",
+      width: 250,
+      render: (text: string) => <DescriptionCell text={text} />,
+      className: "whitespace-normal break-words",
     },
     {
       title: "Currency",
       dataIndex: "Currency",
       key: "Currency",
+      width: 100,
     },
     {
       title: "Amount",
       dataIndex: "Amount",
       key: "Amount",
+      width: 100,
     },
     {
       title: "INR",
       dataIndex: "AmountINR",
       key: "AmountINR",
+      width: 100,
     },
     {
       title: "Actions",
+      key: "actions",
+      width: 100,
       render: (_text: string, record: Transaction) => (
         <div className="flex items-center space-x-4">
           <EditOutlined
@@ -108,16 +115,17 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
               setEditable(record);
               setShowModal(true);
             }}
-            className="text-blue-400 text-xl cursor-pointer hover:text-blue-700 transition-colors"
+            className="text-blue-400 text-xl cursor-pointer hover:text-blue-600 transition-colors"
             aria-label="edit"
           />
           <DeleteOutlined
             onClick={() => showDeleteConfirm(record.id)}
-            className="text-red-400 text-xl cursor-pointer hover:text-red-700 transition-colors"
+            className="text-red-400 text-xl cursor-pointer hover:text-red-600 transition-colors"
             aria-label="delete"
           />
         </div>
       ),
+      fixed: "right" as const,
     },
   ];
 
@@ -132,14 +140,21 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     setLimit(newSize);
   };
 
+  const showTotalText = (total: number, range: [number, number]) => (
+    <div className="hidden sm:block">
+      {`${range[0]}-${range[1]} of ${total}`}
+    </div>
+  );
+
   return (
-    <div className="bg-white rounded-lg shadow-sm p-6">
-      <div className="mb-4 flex justify-between items-center">
+    <div className="bg-white rounded-lg shadow-sm p-2 sm:p-6 overflow-x-auto">
+      <div className="mb-4">
         <Button
           type="primary"
           danger
           onClick={handleBatchDelete}
           disabled={selectedRowKeys.length === 0}
+          className="w-full sm:w-auto"
         >
           Delete Selected
         </Button>
@@ -152,7 +167,8 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
         rowKey="id"
         pagination={false}
         className="border border-gray-200 rounded-lg"
-        tableLayout="auto"
+        scroll={{ x: "max-content" }}
+        size="small"
         bordered
         summary={() => (
           <Table.Summary>
@@ -168,21 +184,25 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
           </Table.Summary>
         )}
         rowClassName="table-row"
+        data-testid="transaction-table"
       />
 
       <div className="mt-6 flex justify-center">
-        <Pagination
-          showSizeChanger
-          current={page}
-          pageSize={limit}
-          total={totalCount}
-          onChange={onPageChange}
-          onShowSizeChange={onPageChange}
-          showTotal={(total, range) => `${range[0]}-${range[1]} of ${total}`}
-          pageSizeOptions={["5", "10", "20", "50"]}
-          className="border border-gray-200 rounded-lg bg-white px-4 py-2 shadow-sm"
-          aria-label="pagination"
-        />
+        <div className="w-full max-w-screen-sm">
+          <Pagination
+            showSizeChanger
+            current={page}
+            pageSize={limit}
+            total={totalCount}
+            onChange={onPageChange}
+            onShowSizeChange={onPageChange}
+            showTotal={showTotalText}
+            pageSizeOptions={["5", "10", "20", "50"]}
+            className="flex flex-wrap justify-center items-center gap-2 border border-gray-200 rounded-lg bg-white p-2 sm:p-4"
+            aria-label="pagination"
+            size="small"
+          />
+        </div>
       </div>
 
       <Modal
