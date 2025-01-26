@@ -29,14 +29,14 @@ export const TransactionFilters: React.FC<TransactionFiltersProps> = ({
   onAdd,
 }) => {
   return (
-    <div className="flex justify-between items-start p-4 bg-white rounded-lg border border-gray-200 shadow-sm mb-6">
-      <div className="space-y-2">
+    <div className="flex flex-col md:flex-row justify-between items-start md:items-center p-4 bg-white rounded-lg border border-gray-200 shadow-sm mb-6 gap-4">
+      <div className="w-full md:w-auto space-y-2">
         <h6 className="font-medium text-gray-700">Select Frequency</h6>
-        <div className="flex gap-4">
+        <div className="flex flex-col sm:flex-row gap-4">
           <Select
             value={frequency}
             onChange={(values) => setFrequency(values)}
-            className="w-40"
+            className="w-full sm:w-40"
           >
             <Select.Option value="7">Last 1 Week</Select.Option>
             <Select.Option value="30">Last 1 Month</Select.Option>
@@ -49,15 +49,26 @@ export const TransactionFilters: React.FC<TransactionFiltersProps> = ({
               onChange={(values) => setSelectedDate(values)}
               data-testid="range-picker"
               inputReadOnly
+              className="w-full sm:w-auto"
             />
           )}
         </div>
       </div>
-      <div className="flex gap-3">
-        <Button type="primary" icon={<ExportOutlined />} onClick={onExport}>
+      <div className="flex flex-wrap gap-3 w-full md:w-auto">
+        <Button
+          type="primary"
+          icon={<ExportOutlined />}
+          onClick={onExport}
+          className="flex-1 md:flex-none"
+        >
           Export CSV
         </Button>
-        <Button type="primary" icon={<UploadOutlined />} onClick={onUpload}>
+        <Button
+          type="primary"
+          icon={<UploadOutlined />}
+          onClick={onUpload}
+          className="flex-1 md:flex-none"
+        >
           Upload CSV
         </Button>
         <Button
@@ -65,6 +76,7 @@ export const TransactionFilters: React.FC<TransactionFiltersProps> = ({
           icon={<PlusSquareOutlined />}
           onClick={onAdd}
           data-testid="add-transaction-button"
+          className="flex-1 md:flex-none"
         >
           Add Transaction
         </Button>
