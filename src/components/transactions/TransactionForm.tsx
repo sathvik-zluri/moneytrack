@@ -13,22 +13,27 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
   onFinish,
 }) => {
   return (
-    <Form form={form} layout="vertical" onFinish={onFinish}>
+    <Form
+      form={form}
+      layout="vertical"
+      onFinish={onFinish}
+      className="w-full max-w-md mx-auto"
+    >
       <Form.Item label="Date" name="Date" rules={[{ required: true }]}>
-        <Input type="date" />
+        <Input type="date" className="w-full" />
       </Form.Item>
       <Form.Item
         label="Description"
         name="Description"
         rules={[{ required: true }]}
       >
-        <Input type="text" placeholder="Enter descripition" />
+        <Input type="text" placeholder="Enter description" className="w-full" />
       </Form.Item>
       <Form.Item label="Amount" name="Amount" rules={[{ required: true }]}>
-        <Input type="number" placeholder="Enter amount" />
+        <Input type="number" placeholder="Enter amount" className="w-full" />
       </Form.Item>
       <Form.Item label="Currency" name="Currency" rules={[{ required: true }]}>
-        <Select placeholder="Select currency">
+        <Select placeholder="Select currency" className="w-full">
           {currencies.map((currency) => (
             <Select.Option key={currency.code} value={currency.code}>
               {`${currency.code} - ${currency.name}`}
@@ -39,7 +44,7 @@ export const TransactionForm: React.FC<TransactionFormProps> = ({
       <div className="flex justify-end">
         <button
           type="submit"
-          className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
+          className="w-full sm:w-auto px-6 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors"
         >
           SAVE
         </button>
