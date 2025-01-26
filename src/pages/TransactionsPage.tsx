@@ -119,15 +119,19 @@ const TransactionsPage: React.FC = () => {
   const handleSubmit = async (values: AddTransactionFormValues) => {
     try {
       setLoading(true);
+      const trimmedValues = {
+        ...values,
+        Description: values.Description.trim().replace(/\s+/g, " "), // Ensure single spacing
+      };
       if (editable) {
-        const response = await updateTransaction(editable.id, values);
+        const response = await updateTransaction(editable.id, trimmedValues);
         setLoading(false);
         message.success(
           response?.message || "Transaction updated successfully!"
         );
       } else {
         console.log(values);
-        const response = await addTransaction(values);
+        const response = await addTransaction(trimmedValues);
         setLoading(false);
         message.success(response?.message || "Transaction added successfully!");
       }
@@ -148,6 +152,12 @@ const TransactionsPage: React.FC = () => {
             "An unexpected error occurred."
         );
       } else if (status === 404) {
+        message.error(
+          response?.data?.error ||
+            response?.data?.errors ||
+            "An unexpected error occurred."
+        );
+      } else if (status === 409) {
         message.error(
           response?.data?.error ||
             response?.data?.errors ||
