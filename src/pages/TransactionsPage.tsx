@@ -147,6 +147,12 @@ const TransactionsPage: React.FC = () => {
             response?.data?.errors ||
             "An unexpected error occurred."
         );
+      } else if (status === 404) {
+        message.error(
+          response?.data?.error ||
+            response?.data?.errors ||
+            "An unexpected error occurred."
+        );
       }
     }
   };
@@ -216,6 +222,12 @@ const TransactionsPage: React.FC = () => {
         message.error(
           response?.data?.message || "An unexpected error occurred."
         );
+      } else if (status === 404) {
+        message.error(
+          response?.data?.error ||
+            response?.data?.errors ||
+            "An unexpected error occurred."
+        );
       }
     }
   };
@@ -267,7 +279,7 @@ const TransactionsPage: React.FC = () => {
   return (
     <Layout>
       {loading && <Spinner />}
-      <div className="p-6">
+      <div className="p-2 sm:p-6">
         <TransactionFilters
           frequency={frequency}
           setFrequency={setFrequency}
