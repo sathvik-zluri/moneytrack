@@ -96,12 +96,35 @@ const TransactionsPage: React.FC = () => {
     fetchTransactions();
   }, [frequency, selectedDate, page, limit, refreshFlag]);
 
-  const handleDelete = async (id: number) => {
+  const handleDelete = async (ids: number[] | number) => {
     try {
       setLoading(true);
-      const response = await deleteTransaction(id);
+
+      const idsArray = Array.isArray(ids) ? ids : [ids];
+      const promises = idsArray.map((id) => deleteTransaction(id));
+
+      const results = await Promise.allSettled(promises);
+      const successfulDeletions = results.filter(
+        (result) => result.status === "fulfilled"
+      );
+      const failedDeletions = results.filter(
+        (result) => result.status === "rejected"
+      );
+
       setLoading(false);
-      message.success(response?.message || "Transaction deleted successfully!");
+
+      if (successfulDeletions.length > 0) {
+        message.success(
+          `${successfulDeletions.length} transaction(s) deleted successfully!`
+        );
+      }
+
+      if (failedDeletions.length > 0) {
+        message.error(
+          `${failedDeletions.length} transaction(s) failed to delete. Please try again.`
+        );
+      }
+
       setRefreshFlag((prev) => !prev);
     } catch (error) {
       setLoading(false);
@@ -119,19 +142,15 @@ const TransactionsPage: React.FC = () => {
   const handleSubmit = async (values: AddTransactionFormValues) => {
     try {
       setLoading(true);
-      const trimmedValues = {
-        ...values,
-        Description: values.Description.trim().replace(/\s+/g, " "), // Ensure single spacing
-      };
       if (editable) {
-        const response = await updateTransaction(editable.id, trimmedValues);
+        const response = await updateTransaction(editable.id, values);
         setLoading(false);
         message.success(
           response?.message || "Transaction updated successfully!"
         );
       } else {
         console.log(values);
-        const response = await addTransaction(trimmedValues);
+        const response = await addTransaction(values);
         setLoading(false);
         message.success(response?.message || "Transaction added successfully!");
       }
