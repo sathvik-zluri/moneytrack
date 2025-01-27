@@ -3,14 +3,13 @@ import { Pagination, Table, Button, message, Modal } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import "../../styles/Table.css";
 import { Transaction } from "../../types";
-import { deleteData } from "../../services/transactionsApi";
 import DescriptionCell from "./DescriptionCell";
 
 interface TransactionTableProps {
   transactions: Transaction[];
   setEditable: (record: Transaction) => void;
   setShowModal: (show: boolean) => void;
-  handleDelete: (id: number) => void;
+  handleDelete: (ids: number[] | number) => void;
   page: number;
   setPage: (page: number) => void;
   limit: number;
@@ -36,21 +35,22 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
   );
 
   const handleBatchDelete = async () => {
-    try {
-      if (selectedRowKeys.length === totalCount) {
-        await deleteData();
-        message.success("All transactions deleted successfully!");
-      } else {
-        for (const id of selectedRowKeys) {
-          await handleDelete(Number(id));
-        }
-        message.success("Selected transactions deleted successfully!");
-      }
-      setSelectedRowKeys([]);
-    } catch (error) {
-      console.error("Error deleting transactions", error);
-      message.error("Failed to delete selected transactions.");
+    if (selectedRowKeys.length === 0) {
+      message.warning("No transactions selected for deletion.");
+      return;
     }
+
+    Modal.confirm({
+      title: "Confirm Delete",
+      content: `Are you sure you want to delete ${selectedRowKeys.length} transaction(s)?`,
+      okText: "Yes, delete",
+      okButtonProps: { danger: true },
+      cancelText: "No, cancel",
+      onOk: async () => {
+        await handleDelete(selectedRowKeys.map(Number));
+        setSelectedRowKeys([]);
+      },
+    });
   };
 
   const showDeleteConfirm = (id: number) => {
@@ -58,9 +58,9 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
     setDeleteModalVisible(true);
   };
 
-  const handleDeleteConfirm = () => {
+  const handleDeleteConfirm = async () => {
     if (transactionToDelete !== null) {
-      handleDelete(transactionToDelete);
+      await handleDelete(transactionToDelete);
       setDeleteModalVisible(false);
       setTransactionToDelete(null);
     }
