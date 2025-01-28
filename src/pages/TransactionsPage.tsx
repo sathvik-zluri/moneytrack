@@ -149,7 +149,6 @@ const TransactionsPage: React.FC = () => {
           response?.message || "Transaction updated successfully!"
         );
       } else {
-        console.log(values);
         const response = await addTransaction(values);
         setLoading(false);
         message.success(response?.message || "Transaction added successfully!");
