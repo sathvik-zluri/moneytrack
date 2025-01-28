@@ -63,6 +63,7 @@ const TransactionTable: React.FC<TransactionTableProps> = ({
       await handleDelete(transactionToDelete);
       setDeleteModalVisible(false);
       setTransactionToDelete(null);
+      setSelectedRowKeys([]);
     }
   };
 
